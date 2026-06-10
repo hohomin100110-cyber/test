@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>프로젝트 계획서</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; }
+        h1, h2 { border-bottom: 2px solid #333; padding-bottom: 10px; }
+        .tech-stack { margin-bottom: 20px; }
+        .design-sample { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+        code { background-color: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>프로젝트명: 심플 보드 (Simple Board)</h1>
+    
+    <h2>기술 스택</h2>
+    <div class="tech-stack">
+        <ul>
+            <li><strong>HTML/CSS:</strong> 웹페이지의 구조와 스타일을 정의하는 기본 기술.</li>
+            <li><strong>TypeScript:</strong> 자바스크립트에 타입을 더해 오류를 줄이고 개발 효율을 높이는 언어.</li>
+            <li><strong>Node.js & Express:</strong> 서버 측 로직을 처리하는 런타임 및 경량 웹 프레임워크.</li>
+            <li><strong>Neon (PostgreSQL):</strong> 클라우드 기반의 관계형 데이터베이스 서비스.</li>
+        </ul>
+    </div>
+
+    <h2>시각적 디자인 샘플 (5개)</h2>
+    <div class="design-sample">
+        <h3>1. 미니멀 화이트 (Minimal White)</h3>
+        <p>깔끔한 흰색 배경에 검은색 텍스트, 얇은 선을 사용한 현대적이고 정갈한 디자인.</p>
+    </div>
+    <div class="design-sample" style="border: 2px solid blue; background-color: #e3f2fd;">
+        <h3>2. 소프트 블루 (Soft Blue) - [선택됨]</h3>
+        <p>연한 파란색 계열의 파스텔 톤을 사용하여 눈이 편안하고 부드러운 느낌의 디자인.</p>
+    </div>
+    <div class="design-sample">
+        <h3>3. 모던 다크 그레이 (Modern Dark Grey)</h3>
+        <p>어두운 회색 배경에 밝은 포인트 컬러를 사용하여 세련되고 집중도 높은 디자인.</p>
+    </div>
+    <div class="design-sample">
+        <h3>4. 레트로 페이퍼 (Retro Paper)</h3>
+        <p>베이지색 종이 느낌의 배경과 세리프 체를 사용하여 따뜻하고 고전적인 분위기의 디자인.</p>
+    </div>
+    <div class="design-sample">
+        <h3>5. 볼드 & 비비드 (Bold & Vivid)</h3>
+        <p>강렬한 색 대비와 굵은 폰트를 사용하여 생동감 있고 개성 넘치는 디자인.</p>
+    </div>
+
+    <h2>데이터베이스 테이블 목록</h2>
+    <ul>
+        <li><code>users</code>: 회원 정보 저장</li>
+        <li><code>posts</code>: 게시글 정보 저장</li>
+        <li><code>comments</code>: 댓글 정보 저장</li>
+        <li><code>recommendations</code>: 게시글 추천 기록 저장</li>
+    </ul>
+
+    <h2>데이터베이스 Create 문</h2>
+    <pre><code>
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE posts (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    title VARCHAR(200) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE recommendations (
+    id SERIAL PRIMARY KEY,
+    post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE(post_id, user_id)
+);
+    </code></pre>
+</body>
+</html>
